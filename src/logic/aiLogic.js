@@ -1,4 +1,4 @@
-// 🟢 Izzii Bocil (random)
+// 🟢 AI Bocil (random)
 export const getRandomMove = (board) => {
   const empty = board
     .map((v, i) => (v === null ? i : null))
@@ -10,7 +10,7 @@ export const getRandomMove = (board) => {
 };
 
 
-// 🔴 IZII DEWASA (AI DEWA - MINIMAX)
+// 🔴 AI DEWA (MINIMAX - TIDAK TERKALAHKAN)
 export const getBestMove = (board, aiSymbol, playerSymbol) => {
   let bestScore = -Infinity;
   let move = null;
@@ -33,13 +33,13 @@ export const getBestMove = (board, aiSymbol, playerSymbol) => {
 };
 
 
-// 🧠 MINIMAX CORE
-const minimax = (board, depth, isMaximizing, aiSymbol, playerSymbol) => {
-  const winner = checkWinner(board);
+// 🔥 MINIMAX CORE (OPTIMAL)
+const minimax = (board, depth, isMaximizing, ai, player) => {
+  const result = checkWinner(board);
 
-  if (winner === aiSymbol) return 10 - depth;
-  if (winner === playerSymbol) return depth - 10;
-  if (winner === "draw") return 0;
+  if (result === ai) return 10 - depth;
+  if (result === player) return depth - 10;
+  if (result === "draw") return 0;
 
   if (isMaximizing) {
     let best = -Infinity;
@@ -47,9 +47,9 @@ const minimax = (board, depth, isMaximizing, aiSymbol, playerSymbol) => {
     for (let i = 0; i < 9; i++) {
       if (!board[i]) {
         const newBoard = [...board];
-        newBoard[i] = aiSymbol;
+        newBoard[i] = ai;
 
-        const score = minimax(newBoard, depth + 1, false, aiSymbol, playerSymbol);
+        const score = minimax(newBoard, depth + 1, false, ai, player);
         best = Math.max(best, score);
       }
     }
@@ -61,9 +61,9 @@ const minimax = (board, depth, isMaximizing, aiSymbol, playerSymbol) => {
     for (let i = 0; i < 9; i++) {
       if (!board[i]) {
         const newBoard = [...board];
-        newBoard[i] = playerSymbol;
+        newBoard[i] = player;
 
-        const score = minimax(newBoard, depth + 1, true, aiSymbol, playerSymbol);
+        const score = minimax(newBoard, depth + 1, true, ai, player);
         best = Math.min(best, score);
       }
     }
@@ -73,7 +73,7 @@ const minimax = (board, depth, isMaximizing, aiSymbol, playerSymbol) => {
 };
 
 
-// 🔍 cek winner (dipakai minimax)
+// 🔍 CHECK WINNER (dipakai minimax)
 const checkWinner = (board) => {
   const patterns = [
     [0,1,2],
@@ -83,7 +83,7 @@ const checkWinner = (board) => {
     [1,4,7],
     [2,5,8],
     [0,4,8],
-    [2,4,6]
+    [2,4,6],
   ];
 
   for (let [a, b, c] of patterns) {

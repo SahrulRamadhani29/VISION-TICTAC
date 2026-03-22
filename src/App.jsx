@@ -5,26 +5,33 @@ import Setup from "./components/Setup";
 import Game from "./components/Game";
 import Result from "./components/Result";
 
-import { setGameConfig, getGameResult } from "./store/gameStore";
+import { setGameConfig } from "./store/gameStore";
 
 function App() {
   const [page, setPage] = useState("welcome");
   const [result, setResult] = useState(null);
 
-  // pindah ke game + set config
+  // 🔹 START GAME (dari Setup)
   const handleStartGame = (config) => {
     setGameConfig(config);
+    setResult(null);
     setPage("game");
   };
 
-  // selesai game → ke result
+  // 🔹 GAME SELESAI
   const handleGameEnd = (res) => {
     setResult(res);
     setPage("result");
   };
 
+  // 🔹 KEMBALI KE MENU
+  const handleBackToMenu = () => {
+    setResult(null);
+    setPage("welcome");
+  };
+
   return (
-    <>
+    <div>
       {page === "welcome" && (
         <Welcome goToSetup={() => setPage("setup")} />
       )}
@@ -40,10 +47,10 @@ function App() {
       {page === "result" && (
         <Result
           result={result}
-          goToMenu={() => setPage("welcome")}
+          goToMenu={handleBackToMenu}
         />
       )}
-    </>
+    </div>
   );
 }
 

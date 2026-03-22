@@ -1,28 +1,31 @@
-// ambil data user dari localStorage
+// 🔐 KEY STORAGE
+const KEY = "vision_tictac_user";
+
+// GET DATA
 export const getUserData = () => {
   try {
-    const data = localStorage.getItem("vision_user");
+    const data = localStorage.getItem(KEY);
     return data ? JSON.parse(data) : null;
-  } catch (error) {
-    console.error("Error getUserData:", error);
+  } catch (e) {
+    console.error("GET STORAGE ERROR:", e);
     return null;
   }
 };
 
-// simpan data user ke localStorage
+// SAVE DATA
 export const saveUserData = (data) => {
   try {
-    localStorage.setItem("vision_user", JSON.stringify(data));
-  } catch (error) {
-    console.error("Error saveUserData:", error);
+    localStorage.setItem(KEY, JSON.stringify(data));
+  } catch (e) {
+    console.error("SAVE STORAGE ERROR:", e);
   }
 };
 
-// hapus data user (opsional)
+// CLEAR DATA (optional debug/reset)
 export const clearUserData = () => {
   try {
-    localStorage.removeItem("vision_user");
-  } catch (error) {
-    console.error("Error clearUserData:", error);
+    localStorage.removeItem(KEY);
+  } catch (e) {
+    console.error("CLEAR STORAGE ERROR:", e);
   }
 };

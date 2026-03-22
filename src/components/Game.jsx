@@ -2,29 +2,29 @@ import { useState, useEffect } from "react";
 import { checkWinner } from "../logic/gameLogic";
 import { getRandomMove, getBestMove } from "../logic/aiLogic";
 import { getGameConfig, setGameResult } from "../store/gameStore";
+import useCamera from "../hooks/useCamera";
+import useGesture from "../hooks/useGesture";
 
 function Game({ goToResult }) {
+  const videoRef = useCamera();
+  const gesture = useGesture(videoRef);
+
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
 
-  const config = getGameConfig();
-  const playerSymbol = config.playerSymbol;
-  const aiSymbol = config.aiSymbol;
-  const level = config.level;
+  const { playerSymbol, aiSymbol, level } = getGameConfig();
 
-  // HANDLE PLAYER MOVE
-  const handleClick = (index) => {
-    if (!isPlayerTurn) return;
-    if (board[index]) return;
+  const handleClick = (i) => {
+    if (!isPlayerTurn || board[i]) return;
 
     const newBoard = [...board];
-    newBoard[index] = playerSymbol;
+    newBoard[i] = playerSymbol;
 
     setBoard(newBoard);
     setIsPlayerTurn(false);
   };
 
-  // HANDLE GAME FLOW
+  // AI + WIN CHECK
   useEffect(() => {
     const winner = checkWinner(board);
 
@@ -36,21 +36,16 @@ function Game({ goToResult }) {
       return;
     }
 
-    // AI MOVE
     if (!isPlayerTurn) {
       setTimeout(() => {
-        let move;
-
-        if (level === "easy") {
-          move = getRandomMove(board);
-        } else {
-          move = getBestMove(board, aiSymbol, playerSymbol);
-        }
+        const move =
+          level === "easy"
+            ? getRandomMove(board)
+            : getBestMove(board, aiSymbol, playerSymbol);
 
         if (move !== null) {
           const newBoard = [...board];
           newBoard[move] = aiSymbol;
-
           setBoard(newBoard);
           setIsPlayerTurn(true);
         }
@@ -58,24 +53,64 @@ function Game({ goToResult }) {
     }
   }, [board]);
 
+  // GESTURE SELECT
+  useEffect(() => {
+    if (!gesture.isPointing || !isPlayerTurn) return;
+
+    document.querySelectorAll(".cell").forEach((cell, i) => {
+      const rect = cell.getBoundingClientRect();
+
+      if (
+        gesture.x >= rect.left &&
+        gesture.x <= rect.right &&
+        gesture.y >= rect.top &&
+        gesture.y <= rect.bottom &&
+        !board[i]
+      ) {
+        handleClick(i);
+      }
+    });
+  }, [gesture]);
+
   return (
-    <div className="container">
-      <h2>Game Dimulai</h2>
+    <div style={{ position: "relative", height: "100vh" }}>
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+        }}
+      />
 
-      <p>
-        Kamu: <b>{playerSymbol}</b> | AI: <b>{aiSymbol}</b>
-      </p>
+      <div
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          backdropFilter: "brightness(0.6)",
+        }}
+      >
+        <h2 style={{ color: "white" }}>Vision TicTac</h2>
 
-      <div className="board">
-        {board.map((cell, i) => (
-          <div
-            key={i}
-            className="cell"
-            onClick={() => handleClick(i)}
-          >
-            {cell}
-          </div>
-        ))}
+        <div className="board">
+          {board.map((cell, i) => (
+            <div
+              key={i}
+              className="cell"
+              onClick={() => handleClick(i)}
+            >
+              {cell}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

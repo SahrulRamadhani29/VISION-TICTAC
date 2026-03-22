@@ -1,13 +1,15 @@
 import { getUserData, saveUserData } from "../utils/storage";
 
-// init user (buat / ambil data lama)
+// 🔹 INIT / CREATE USER
 export const initUser = (name) => {
   const existing = getUserData();
 
+  // kalau nama sama → pakai data lama
   if (existing && existing.name === name) {
     return existing;
   }
 
+  // user baru
   const newUser = {
     name,
     win: 0,
@@ -19,19 +21,24 @@ export const initUser = (name) => {
   return newUser;
 };
 
-// update statistik
+
+// 🔹 GET USER
+export const getUser = () => {
+  return getUserData();
+};
+
+
+// 🔹 UPDATE STATISTIK (ANTI BUG)
 export const updateStats = (result) => {
   const user = getUserData();
   if (!user) return;
 
-  if (result === "win") user.win++;
-  if (result === "lose") user.lose++;
-  if (result === "draw") user.draw++;
+  // cloning biar aman
+  const updated = { ...user };
 
-  saveUserData(user);
-};
+  if (result === "win") updated.win += 1;
+  else if (result === "lose") updated.lose += 1;
+  else if (result === "draw") updated.draw += 1;
 
-// ambil user
-export const getUser = () => {
-  return getUserData();
+  saveUserData(updated);
 };

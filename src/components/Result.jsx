@@ -4,57 +4,43 @@ import { getGameConfig } from "../store/gameStore";
 
 function Result({ result, goToMenu }) {
   const [user, setUser] = useState(null);
-  const hasUpdated = useRef(false); // 🔥 anti double update
+  const once = useRef(false);
 
   useEffect(() => {
-    if (hasUpdated.current) return;
-    hasUpdated.current = true;
+    if (once.current) return;
+    once.current = true;
 
-    const config = getGameConfig();
-    const playerSymbol = config.playerSymbol;
+    const { playerSymbol } = getGameConfig();
 
-    let finalResult = "draw";
+    let final = "draw";
+    if (result === playerSymbol) final = "win";
+    else if (result !== "draw") final = "lose";
 
-    if (result === playerSymbol) {
-      finalResult = "win";
-    } else if (result === "draw") {
-      finalResult = "draw";
-    } else {
-      finalResult = "lose";
-    }
-
-    updateStats(finalResult);
-
-    const data = getUser();
-    setUser(data);
+    updateStats(final);
+    setUser(getUser());
   }, [result]);
 
   if (!user) return null;
 
+  const { playerSymbol } = getGameConfig();
+
   return (
     <div className="container">
-      <h2>Hasil Game</h2>
+      <h2>Hasil</h2>
 
-      {result === getGameConfig().playerSymbol && (
-        <p className="result-text">
-          Selamat {user.name} kamu menang 🤩😎🔥
-        </p>
+      {result === playerSymbol && (
+        <p>Selamat {user.name} kamu menang 🤩🔥</p>
       )}
 
       {result === "draw" && (
-        <p className="result-text">
-          {user.name} Skor Seri, Gas Mainkan Lagi! 😤🔥
-        </p>
+        <p>{user.name} seri 😤🔥</p>
       )}
 
-      {result !== "draw" &&
-        result !== getGameConfig().playerSymbol && (
-          <p className="result-text">
-            Yahh kalah sama AI 😹🤪 coba lagi!
-          </p>
-        )}
+      {result !== "draw" && result !== playerSymbol && (
+        <p>Kalah dari AI 😹 coba lagi!</p>
+      )}
 
-      <button onClick={goToMenu}>Kembali ke Menu</button>
+      <button onClick={goToMenu}>Menu</button>
     </div>
   );
 }

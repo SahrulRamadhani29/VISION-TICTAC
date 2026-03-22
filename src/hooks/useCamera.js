@@ -4,28 +4,31 @@ export default function useCamera() {
   const videoRef = useRef(null);
 
   useEffect(() => {
+    let stream;
+
     const startCamera = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "user" },
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: "user", // kamera depan (mobile)
+          },
           audio: false,
         });
 
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
-      } catch (error) {
-        console.error("Camera error:", error);
+      } catch (err) {
+        console.error("Camera error:", err);
+        alert("Tidak bisa mengakses kamera");
       }
     };
 
     startCamera();
 
     return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        videoRef.current.srcObject
-          .getTracks()
-          .forEach((track) => track.stop());
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
       }
     };
   }, []);
