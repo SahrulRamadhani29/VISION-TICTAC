@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-import Welcome from "../components/Welcome";
-import Setup from "../components/Setup";
-import Game from "../components/Game";
-import Result from "../components/Result";
+import Welcome from "./components/Welcome";
+import Setup from "./components/Setup";
+import Game from "./components/Game";
+import Result from "./components/Result";
 
-import { setGameConfig, getGameResult } from "../store/gameStore";
+import { setGameConfig, getGameResult } from "./store/gameStore";
 
 function App() {
   const [page, setPage] = useState("welcome");

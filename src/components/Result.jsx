@@ -1,14 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { updateStats, getUser } from "../store/userStore";
+import { getGameConfig } from "../store/gameStore";
 
 function Result({ result, goToMenu }) {
   const [user, setUser] = useState(null);
+  const hasUpdated = useRef(false); // 🔥 anti double update
 
   useEffect(() => {
-    let finalResult = result;
+    if (hasUpdated.current) return;
+    hasUpdated.current = true;
 
-    if (result === "X") finalResult = "win";
-    if (result === "O") finalResult = "lose";
+    const config = getGameConfig();
+    const playerSymbol = config.playerSymbol;
+
+    let finalResult = "draw";
+
+    if (result === playerSymbol) {
+      finalResult = "win";
+    } else if (result === "draw") {
+      finalResult = "draw";
+    } else {
+      finalResult = "lose";
+    }
 
     updateStats(finalResult);
 
@@ -19,20 +32,27 @@ function Result({ result, goToMenu }) {
   if (!user) return null;
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div className="container">
       <h2>Hasil Game</h2>
 
-      {result === "X" && (
-        <p>Selamat {user.name} kamu menang 🤩😎🔥</p>
-      )}
-
-      {result === "O" && (
-        <p>Yahh kalah sama AI 😹🤪 coba lagi!</p>
+      {result === getGameConfig().playerSymbol && (
+        <p className="result-text">
+          Selamat {user.name} kamu menang 🤩😎🔥
+        </p>
       )}
 
       {result === "draw" && (
-        <p>{user.name} Skor Seri, Gas Mainkan Lagi! 😤🔥</p>
+        <p className="result-text">
+          {user.name} Skor Seri, Gas Mainkan Lagi! 😤🔥
+        </p>
       )}
+
+      {result !== "draw" &&
+        result !== getGameConfig().playerSymbol && (
+          <p className="result-text">
+            Yahh kalah sama AI 😹🤪 coba lagi!
+          </p>
+        )}
 
       <button onClick={goToMenu}>Kembali ke Menu</button>
     </div>

@@ -1,54 +1,77 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { checkWinner } from "../logic/gameLogic";
+import { getRandomMove, getBestMove } from "../logic/aiLogic";
+import { getGameConfig, setGameResult } from "../store/gameStore";
 
 function Game({ goToResult }) {
   const [board, setBoard] = useState(Array(9).fill(null));
-  const [isX, setIsX] = useState(true);
+  const [isPlayerTurn, setIsPlayerTurn] = useState(true);
 
+  const config = getGameConfig();
+  const playerSymbol = config.playerSymbol;
+  const aiSymbol = config.aiSymbol;
+  const level = config.level;
+
+  // HANDLE PLAYER MOVE
   const handleClick = (index) => {
+    if (!isPlayerTurn) return;
     if (board[index]) return;
 
     const newBoard = [...board];
-    newBoard[index] = isX ? "X" : "O";
+    newBoard[index] = playerSymbol;
 
     setBoard(newBoard);
-    setIsX(!isX);
-
-    const result = checkWinner(newBoard);
-
-    if (result) {
-      setTimeout(() => {
-        goToResult(result);
-      }, 500);
-    }
+    setIsPlayerTurn(false);
   };
 
+  // HANDLE GAME FLOW
+  useEffect(() => {
+    const winner = checkWinner(board);
+
+    if (winner) {
+      setTimeout(() => {
+        setGameResult(winner);
+        goToResult(winner);
+      }, 500);
+      return;
+    }
+
+    // AI MOVE
+    if (!isPlayerTurn) {
+      setTimeout(() => {
+        let move;
+
+        if (level === "easy") {
+          move = getRandomMove(board);
+        } else {
+          move = getBestMove(board, aiSymbol, playerSymbol);
+        }
+
+        if (move !== null) {
+          const newBoard = [...board];
+          newBoard[move] = aiSymbol;
+
+          setBoard(newBoard);
+          setIsPlayerTurn(true);
+        }
+      }, 400);
+    }
+  }, [board]);
+
   return (
-    <div style={{ textAlign: "center" }}>
+    <div className="container">
       <h2>Game Dimulai</h2>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 80px)",
-          gap: "5px",
-          justifyContent: "center",
-        }}
-      >
+      <p>
+        Kamu: <b>{playerSymbol}</b> | AI: <b>{aiSymbol}</b>
+      </p>
+
+      <div className="board">
         {board.map((cell, i) => (
           <div
             key={i}
+            className="cell"
             onClick={() => handleClick(i)}
-            style={{
-              width: "80px",
-              height: "80px",
-              background: "#ddd",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "24px",
-              cursor: "pointer",
-            }}
           >
             {cell}
           </div>
