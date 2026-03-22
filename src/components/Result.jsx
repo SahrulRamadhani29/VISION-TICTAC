@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { updateStats, getUser } from "./store/userStore";
+import { updateStats, getUser } from "../store/userStore";
 
 function Result({ result, goToMenu }) {
   const [user, setUser] = useState(null);

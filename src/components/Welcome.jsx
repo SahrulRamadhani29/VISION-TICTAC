@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { initUser, getUser } from "./store/userStore";
+import { initUser, getUser } from "../store/userStore";
 
 function Welcome({ goToSetup }) {
   const [name, setName] = useState("");
