@@ -1,86 +1,29 @@
 /* =========================================
-   KAMERA BACKGROUND (Dipakai di Game & Result)
+   GAME SCREEN LAYOUT
    ========================================= */
-.camera-bg, .camera-bg-result {
+
+.game-screen-container {
+  position: relative; /* Wajib relative untuk anak-anaknya */
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent; /* Pastikan bening */
+  overflow: hidden;
+}
+
+/* 1. Video Kamera (Paling Belakang) */
+.camera-video-feed {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  object-fit: cover;
-  transform: scaleX(-1);
-  /* z-index dinaikin biar gak ketutupan background body default */
-  z-index: 1; 
+  height: 100%;
+  object-fit: cover; /* Fullscreen tanpa distorsi */
+  transform: scaleX(-1); /* Mirror feed */
+  z-index: 1; /* Lapisan dasar */
 }
 
-/* Khusus Result, No Blur sesuai request */
-.camera-bg-result {
-  filter: none;
-}
-
-/* =========================================
-   BOARD GRID (In-Game)
-   ========================================= */
-.board {
-  display: grid;
-  grid-template-columns: repeat(3, 100px);
-  gap: 12px;
-}
-
-/* CELL (Efek Kaca Bening) */
-.cell {
-  width: 100px;
-  height: 100px;
-  border-radius: 20px;
-  /* background putih transparan tipis biar kamera keliatan di belakangnya */
-  background: rgba(255, 255, 255, 0.4); 
-  border: 3px solid rgba(255, 255, 255, 0.9);
-  color: white; /* Simbol X atau O warna putih */
-  font-size: 52px;
-  font-weight: 900;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Efek kaca tipis di kotak doang */
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  box-shadow: 0 8px 32px 0 rgba(0, 50, 150, 0.1);
-  cursor: pointer;
-}
-
-/* =========================================
-   EFEK POINTER (Biru Putih Minimalis)
-   ========================================= */
-.pointer {
-  position: fixed;
-  width: 22px;
-  height: 22px;
-  /* Warna Biru Elegant */
-  background: #0066ff;
-  /* Border Putih bersih */
-  border: 3px solid #ffffff;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  /* Z-index paling atas */
-  z-index: 999;
-  box-shadow: 0 0 15px rgba(0, 102, 255, 0.6);
-}
-
-/* =========================================
-   STYLE KHUSUS HALAMAN RESULT (TEKS DI ATAS, FULL CAM)
-   ========================================= */
-.result-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* Container Teks di Atas, Bening Total */
-.result-overlay-text-only {
+/* 2. UI Overlay (Tengah) */
+.game-ui-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -89,56 +32,72 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* 🔥 Teks ditaruh di Atas */
-  padding-top: 50px; /* Jarak dari atas layar */
-  /* NO BACKGROUND COLOR, NO BLUR OVERLAY */
-  background: transparent;
-  z-index: 10;
-  animation: fadeIn 0.5s ease-out forwards;
+  justify-content: flex-start; /* Susun dari atas */
+  padding-top: 40px; /* Jarak judul dari atas layar */
+  background-color: transparent; /* Jangan kasih warna BG di sini! */
+  z-index: 5; /* Di atas kamera, di bawah pointer */
+  pointer-events: none; /* UI dasar gak ngeblok klik, kecuali anaknya */
 }
 
-/* Judul Hasil dikasih shadow biar kebaca */
-.result-title-clean {
-  font-size: 36px;
-  font-weight: 900;
-  text-transform: uppercase;
-  color: white;
-  text-shadow: 0 0 15px rgba(0, 0, 0, 1);
-  margin-bottom: 10px;
+/* Agar elemen di dalam overlay bisa diklik */
+.game-title, .game-info, .tic-tac-toe-board {
+  pointer-events: auto;
 }
 
-/* Pesan Original kamu dikasih shadow */
-.result-original-message p {
-  font-size: 24px;
+.game-title {
+  color: white; /* Putih agar kontras dengan kamera */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Shadow agar kebaca */
+  margin-bottom: 5px;
+}
+
+.game-info {
   color: white;
+  margin-bottom: 20px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Papan Game */
+.tic-tac-toe-board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.1); /* Sedikit transparan biar keren */
+  padding: 10px;
+  border-radius: 10px;
+  backdrop-filter: blur(5px); /* Efek kaca di area grid */
+}
+
+/* Sel Game */
+.game-cell {
+  background-color: rgba(255, 255, 255, 0.8); /* Sel putih tapi tembus pandang */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
   font-weight: bold;
-  text-align: center;
-  text-shadow: 0 0 15px rgba(0,0,0,1);
-  margin-bottom: 40px;
-}
-
-/* Tombol Menu melayang di bawah */
-.btn-menu-back {
-  position: fixed;
-  bottom: 40px;
-  background: #0066ff;
-  color: white;
-  padding: 16px 40px;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: 700;
-  text-transform: uppercase;
-  border: none;
+  color: #333;
   cursor: pointer;
-  box-shadow: 0 10px 25px rgba(0, 102, 255, 0.4);
+  transition: background-color 0.2s;
 }
 
-.btn-menu-back:hover {
-  background: #0052cc;
-  transform: translateY(-2px);
+.game-cell:hover {
+  background-color: rgba(255, 255, 255, 1);
 }
 
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+/* 3. Pointer Jari (Paling Depan) */
+.gesture-pointer-finger {
+  position: fixed; /* Wajib fixed mengikuti layar */
+  width: 25px;
+  height: 25px;
+  background-color: #00ff00; /* Hijau menyala */
+  border: 3px solid white; /* Border putih agar makin jelas */
+  border-radius: 50%;
+  pointer-events: none; /* Jangan biarkan pointer ngeblok klik */
+  box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; /* Efek Glow */
+  transform: translate(-50%, -50%); /* Sentrerkan di koordinat XY */
+  z-index: 999; /* Lapisan tertinggi, harus di depan grid */
+  /* Transisi halus mengikuti gerakan jari */
+  transition: left 0.05s linear, top 0.05s linear; 
 }

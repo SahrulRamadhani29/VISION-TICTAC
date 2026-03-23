@@ -1,123 +1,119 @@
-/* RESET */
+/* =========================================
+   RESET DASAR & TYPOGRAPHY
+   ========================================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* BODY - Menggunakan flex agar container benar-benar di tengah layar */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #f0f6ff; /* Biru sangat muda yang bersih */
-  color: #111;
+  font-family: Arial, sans-serif;
+  color: #333;
+  /* 🔥 FIX: Hapus background putih global di sini biar kamera nembus */
+  background-color: transparent; 
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  overflow: hidden; /* Mencegah scrollbar muncul saat game */
 }
 
-/* CONTAINER - Centered & Aesthetic Blue-White */
-.container {
-  width: 90%;
-  max-width: 420px;
-  margin: auto;
-  padding: 35px 25px;
-  text-align: center;
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 102, 255, 0.08);
-  border: 2px solid #e0ecff;
-}
-
-/* TEXT */
+/* Typography Dasar */
 h1 {
-  font-size: 28px;
+  color: #4CAF50;
   margin-bottom: 10px;
-  color: #0066ff;
 }
 
 h2 {
-  font-size: 24px;
   margin-bottom: 20px;
-  color: #003366;
-}
-
-h3 {
-  font-size: 14px;
-  margin-top: 20px;
-  margin-bottom: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #6699cc;
 }
 
 p {
-  font-size: 15px;
-  margin-top: 8px;
-  color: #336699;
-  line-height: 1.6;
+  margin-bottom: 10px;
+  line-height: 1.5;
 }
 
-/* INPUT */
-input {
-  width: 100%;
-  padding: 14px;
-  margin-top: 8px;
-  border-radius: 12px;
-  border: 2px solid #cce0ff;
-  font-size: 16px;
+/* =========================================
+   COMPONENTS (UNTUK MENU & SETUP)
+   ========================================= */
+
+/* Container untuk Menu/Setup agar tetap putih & di tengah */
+.container {
+  background: #fff; /* Halaman Menu tetap putih */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   text-align: center;
-  outline: none;
-  background: #fcfdfe;
+  width: 90%;
+  max-width: 400px;
+  z-index: 10; /* Di depan background body */
 }
 
-input:focus {
-  border-color: #0066ff;
+/* Styling Input Nama */
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
 }
 
-/* 🔥 VERTICAL GROUP - Agar tombol baris ke bawah */
-.vertical-group {
+/* Styling Tombol Pilihan (Level/Simbol) */
+.select-group {
+  margin-bottom: 25px;
+}
+
+.select-group h3 {
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #666;
+}
+
+/* 🔥 Perbaikan Layout: Baris ke bawah */
+.options-vertical {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%;
   align-items: center;
 }
 
-/* BUTTONS */
-button {
+.options-vertical button {
   width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 700;
+  max-width: 250px;
+  padding: 12px;
+  border: 2px solid #4CAF50;
+  background-color: white;
+  color: #4CAF50;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border: 2px solid #0066ff;
-  background: #ffffff;
-  color: #0066ff;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.2s;
 }
 
-button:hover {
-  background: #f0f7ff;
+/* 🔥 Tanda Pilihan Aktif (Fix issue sebelumnya) */
+.options-vertical button.active {
+  background-color: #4CAF50;
+  color: white;
 }
 
-/* 🔥 ACTIVE STATE - Tanda tombol yang dipilih */
-button.active {
-  background: #0066ff;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
-}
-
-/* BUTTON MULAI GAME (Paling Bawah) */
-.btn-start {
-  background: #0066ff;
-  color: #ffffff;
-  margin-top: 30px;
+/* Tombol Aksi Utama */
+.action-btn {
+  padding: 15px 40px;
+  background-color: #4CAF50;
+  color: white;
   border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: background-color 0.2s;
 }
 
-.btn-start:hover {
-  background: #0052cc;
-  transform: translateY(-2px);
+.action-btn:hover {
+  background-color: #45a049;
 }
