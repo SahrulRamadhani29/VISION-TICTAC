@@ -24,7 +24,7 @@ function Game({ goToResult }) {
     setIsPlayerTurn(false);
   };
 
-  // AI + WIN CHECK
+  // 🔥 AI + WIN CHECK
   useEffect(() => {
     const winner = checkWinner(board);
 
@@ -53,9 +53,9 @@ function Game({ goToResult }) {
     }
   }, [board]);
 
-  // GESTURE SELECT
+  // 🔥 GESTURE SELECT (SAFE)
   useEffect(() => {
-    if (!gesture.isPointing || !isPlayerTurn) return;
+    if (!gesture || !gesture.isPointing || !isPlayerTurn) return;
 
     document.querySelectorAll(".cell").forEach((cell, i) => {
       const rect = cell.getBoundingClientRect();
@@ -70,7 +70,7 @@ function Game({ goToResult }) {
         handleClick(i);
       }
     });
-  }, [gesture]);
+  }, [gesture?.isPointing]);
 
   return (
     <div style={{ position: "relative", height: "100vh" }}>
@@ -83,6 +83,7 @@ function Game({ goToResult }) {
           width: "100%",
           height: "100%",
           objectFit: "cover",
+          transform: "scaleX(-1)", // 🔥 mirror biar natural
         }}
       />
 
