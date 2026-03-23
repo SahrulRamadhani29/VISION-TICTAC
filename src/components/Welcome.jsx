@@ -36,7 +36,7 @@ function Welcome({ goToSetup }) {
       />
 
       <h3>Statistik</h3>
-      <p>🏆 {stats.win} | 🤝 {stats.draw} | 💀 {stats.lose}</p>
+      <p>🏆 Menang: {stats.win} | 💀 Kalah: {stats.lose} | 🤝 Seri: {stats.draw}</p>
 
       <button onClick={handleStart}>Mulai</button>
     </div>
