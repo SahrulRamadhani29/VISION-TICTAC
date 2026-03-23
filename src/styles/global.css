@@ -5,67 +5,119 @@
   box-sizing: border-box;
 }
 
-/* BODY */
+/* BODY - Menggunakan flex agar container benar-benar di tengah layar */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #f5f5f5;
+  background: #f0f6ff; /* Biru sangat muda yang bersih */
   color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 
-/* CONTAINER */
+/* CONTAINER - Centered & Aesthetic Blue-White */
 .container {
+  width: 90%;
   max-width: 420px;
   margin: auto;
-  padding: 20px;
+  padding: 35px 25px;
   text-align: center;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 102, 255, 0.08);
+  border: 2px solid #e0ecff;
 }
 
 /* TEXT */
 h1 {
   font-size: 28px;
   margin-bottom: 10px;
+  color: #0066ff;
 }
 
 h2 {
-  font-size: 22px;
-  margin-bottom: 10px;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #003366;
 }
 
 h3 {
+  font-size: 14px;
+  margin-top: 20px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #6699cc;
+}
+
+p {
   font-size: 15px;
-  margin-top: 15px;
+  margin-top: 8px;
+  color: #336699;
+  line-height: 1.6;
 }
 
 /* INPUT */
 input {
   width: 100%;
-  padding: 10px;
+  padding: 14px;
   margin-top: 8px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 14px;
+  border-radius: 12px;
+  border: 2px solid #cce0ff;
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+  background: #fcfdfe;
 }
 
-/* BUTTON */
+input:focus {
+  border-color: #0066ff;
+}
+
+/* 🔥 VERTICAL GROUP - Agar tombol baris ke bawah */
+.vertical-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  align-items: center;
+}
+
+/* BUTTONS */
 button {
   width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 10px;
-  background: #111;
-  color: #fff;
-  font-size: 14px;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease;
+  border: 2px solid #0066ff;
+  background: #ffffff;
+  color: #0066ff;
 }
 
 button:hover {
-  background: #333;
+  background: #f0f7ff;
 }
 
-/* TEXT */
-p {
-  font-size: 14px;
-  margin-top: 6px;
+/* 🔥 ACTIVE STATE - Tanda tombol yang dipilih */
+button.active {
+  background: #0066ff;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+}
+
+/* BUTTON MULAI GAME (Paling Bawah) */
+.btn-start {
+  background: #0066ff;
+  color: #ffffff;
+  margin-top: 30px;
+  border: none;
+}
+
+.btn-start:hover {
+  background: #0052cc;
+  transform: translateY(-2px);
 }

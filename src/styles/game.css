@@ -1,54 +1,144 @@
-/* BOARD */
-.board {
-  display: grid;
-  grid-template-columns: repeat(3, 90px);
-  gap: 6px;
-  margin-top: 20px;
+/* =========================================
+   KAMERA BACKGROUND (Dipakai di Game & Result)
+   ========================================= */
+.camera-bg, .camera-bg-result {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  transform: scaleX(-1);
+  /* z-index dinaikin biar gak ketutupan background body default */
+  z-index: 1; 
 }
 
-/* CELL */
+/* Khusus Result, No Blur sesuai request */
+.camera-bg-result {
+  filter: none;
+}
+
+/* =========================================
+   BOARD GRID (In-Game)
+   ========================================= */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  gap: 12px;
+}
+
+/* CELL (Efek Kaca Bening) */
 .cell {
-  width: 90px;
-  height: 90px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: white;
-  font-size: 28px;
+  width: 100px;
+  height: 100px;
+  border-radius: 20px;
+  /* background putih transparan tipis biar kamera keliatan di belakangnya */
+  background: rgba(255, 255, 255, 0.4); 
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  color: white; /* Simbol X atau O warna putih */
+  font-size: 52px;
+  font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(4px);
+  /* Efek kaca tipis di kotak doang */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 8px 32px 0 rgba(0, 50, 150, 0.1);
   cursor: pointer;
-  transition: 0.2s;
 }
 
-/* HOVER */
-.cell:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* CAMERA */
-.camera {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* RESULT */
-.result-text {
-  font-size: 18px;
-  margin-top: 20px;
-}
-
-/* POINTER (optional future upgrade) */
+/* =========================================
+   EFEK POINTER (Biru Putih Minimalis)
+   ========================================= */
 .pointer {
   position: fixed;
-  width: 20px;
-  height: 20px;
-  background: rgba(0, 255, 200, 0.8);
+  width: 22px;
+  height: 22px;
+  /* Warna Biru Elegant */
+  background: #0066ff;
+  /* Border Putih bersih */
+  border: 3px solid #ffffff;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
+  /* Z-index paling atas */
   z-index: 999;
+  box-shadow: 0 0 15px rgba(0, 102, 255, 0.6);
+}
+
+/* =========================================
+   STYLE KHUSUS HALAMAN RESULT (TEKS DI ATAS, FULL CAM)
+   ========================================= */
+.result-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Container Teks di Atas, Bening Total */
+.result-overlay-text-only {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* 🔥 Teks ditaruh di Atas */
+  padding-top: 50px; /* Jarak dari atas layar */
+  /* NO BACKGROUND COLOR, NO BLUR OVERLAY */
+  background: transparent;
+  z-index: 10;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Judul Hasil dikasih shadow biar kebaca */
+.result-title-clean {
+  font-size: 36px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: white;
+  text-shadow: 0 0 15px rgba(0, 0, 0, 1);
+  margin-bottom: 10px;
+}
+
+/* Pesan Original kamu dikasih shadow */
+.result-original-message p {
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 0 15px rgba(0,0,0,1);
+  margin-bottom: 40px;
+}
+
+/* Tombol Menu melayang di bawah */
+.btn-menu-back {
+  position: fixed;
+  bottom: 40px;
+  background: #0066ff;
+  color: white;
+  padding: 16px 40px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 102, 255, 0.4);
+}
+
+.btn-menu-back:hover {
+  background: #0052cc;
+  transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }

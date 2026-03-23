@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { updateStats, getUser } from "../store/userStore";
 import { getGameConfig } from "../store/gameStore";
+import useCamera from "../hooks/useCamera";
 
 function Result({ result, goToMenu }) {
   const [user, setUser] = useState(null);
   const once = useRef(false);
+  const videoRef = useCamera(); // 🔥 Nyalakan kamera di background
 
   useEffect(() => {
     if (once.current) return;
@@ -25,22 +27,39 @@ function Result({ result, goToMenu }) {
   const { playerSymbol } = getGameConfig();
 
   return (
-    <div className="container">
-      <h2>Hasil</h2>
+    <div className="result-wrapper">
+      {/* Background Kamera Full Jernih Tanpa Blur */}
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        muted
+        className="camera-bg-result"
+      />
 
-      {result === playerSymbol && (
-        <p>Selamat {user.name} kamu menang 🤩🔥</p>
-      )}
+      {/* Overlay Teks di Atas Layar, Tanpa BG Card */}
+      <div className="result-overlay-text-only">
+          <h2 className="result-title-clean">Hasil</h2>
 
-      {result === "draw" && (
-        <p>{user.name} seri 😤🔥</p>
-      )}
+          {/* 🔥 Kata-kata KEMBALI KE ORIGINAL lu bang! */}
+          <div className="result-original-message">
+            {result === playerSymbol && (
+              <p>Selamat {user.name} kamu menang 🤩🔥</p>
+            )}
 
-      {result !== "draw" && result !== playerSymbol && (
-        <p>Kalah dari AI 😹 coba lagi!</p>
-      )}
+            {result === "draw" && (
+              <p>{user.name} seri 😤🔥</p>
+            )}
 
-      <button onClick={goToMenu}>Menu</button>
+            {result !== "draw" && result !== playerSymbol && (
+              <p>Kalah dari AI 😹 coba lagi!</p>
+            )}
+          </div>
+
+          <button className="btn-menu-back" onClick={goToMenu}>
+            Menu
+          </button>
+      </div>
     </div>
   );
 }
