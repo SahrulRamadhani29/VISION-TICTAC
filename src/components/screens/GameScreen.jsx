@@ -226,27 +226,6 @@ export default function GameScreen({ goTo, gameConfig, setResult }) {
       holdIndex={holdIndex}      // 🔥 BARU
       countdown={countdown}      // 🔥 BARU
       />
-
-      <div className="status">
-        {winner === "draw" && <p>Draw!</p>}
-        {winner === playerSymbol && <p>You Win 🎉</p>}
-        {winner === aiSymbol && <p>You Lose 😈</p>}
-        {!winner && (
-          <p>
-            {turn === "player" ? "Your Turn 👤" : "AI Thinking 🤖"}
-          </p>
-        )}
-      </div>
-
-      <button onClick={resetGame}>Reset</button>
-
-      <div style={{ marginTop: 10 }}>
-        <p>X: {gesture.x.toFixed(2)}</p>
-        <p>Y: {gesture.y.toFixed(2)}</p>
-        <p>Pointing: {gesture.isPointing ? "YES 👉" : "NO ❌"}</p>
-        <p>Hover Index: {hoverIndex}</p>
-      </div>
-
     </div>
   );
 }

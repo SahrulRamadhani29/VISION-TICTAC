@@ -5,7 +5,9 @@ export default function WelcomeScreen({ goTo, setUser }) {
   const [name, setName] = useState("");
   const [userData, setUserData] = useState(null);
 
-  // LOAD USER SAAT MASUK
+  // =========================
+  // 🔥 LOAD USER SAAT MASUK
+  // =========================
   useEffect(() => {
     const existingUser = getUser();
     if (existingUser) {
@@ -15,6 +17,9 @@ export default function WelcomeScreen({ goTo, setUser }) {
     }
   }, []);
 
+  // =========================
+  // 🚀 HANDLE START
+  // =========================
   const handleStart = () => {
     if (!name.trim()) {
       alert("Nama tidak boleh kosong!");
@@ -23,9 +28,16 @@ export default function WelcomeScreen({ goTo, setUser }) {
 
     let user;
 
+    // 🔥 JIKA SUDAH ADA USER → UPDATE NAMA (opsional fix kecil)
     if (userData) {
-      user = userData;
-    } else {
+      user = {
+        ...userData,
+        name: name, // update nama jika diubah
+      };
+      saveUser(user);
+    } 
+    // 🔥 JIKA BELUM ADA → BUAT USER BARU
+    else {
       user = createUser(name);
       saveUser(user);
     }
@@ -46,6 +58,7 @@ export default function WelcomeScreen({ goTo, setUser }) {
         style={{ padding: 10, fontSize: 16 }}
       />
 
+      {/* 🔥 TAMPILKAN STATISTIK */}
       {userData && (
         <div style={{ marginTop: 20 }}>
           <p>Menang: {userData.win}</p>
