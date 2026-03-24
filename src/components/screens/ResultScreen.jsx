@@ -1,17 +1,20 @@
+import { useEffect } from "react";
 import { updateStats } from "../../utils/storage";
 
-export default function ResultScreen({ goTo }) {
-        useEffect(() => {
-    if (!result) return;
+export default function ResultScreen({ goTo, result, user }) {
 
-    if (result === playerSymbol) {
-        updateStats("win");
-    } else if (result === aiSymbol) {
-        updateStats("lose");
+  useEffect(() => {
+    if (!result || !user) return;
+
+    if (result === user.playerSymbol) {
+      updateStats("win");
+    } else if (result === user.aiSymbol) {
+      updateStats("lose");
     } else {
-        updateStats("draw");
+      updateStats("draw");
     }
-    }, []);
+  }, [result, user]);
+
   return (
     <div style={{ textAlign: "center", marginTop: 100 }}>
       <h1>RESULT SCREEN</h1>
@@ -21,5 +24,4 @@ export default function ResultScreen({ goTo }) {
       </button>
     </div>
   );
-  
 }
