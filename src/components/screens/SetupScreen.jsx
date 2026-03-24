@@ -41,7 +41,7 @@ export default function SetupScreen({ goTo, setGameConfig }) {
 
       {/* SYMBOL */}
       <div className="setup-group">
-        <h3>Pilih Simbol</h3>
+        <h3>Select Symbol</h3>
 
         <button
           className={symbol === "X" ? "active" : ""}
@@ -59,16 +59,16 @@ export default function SetupScreen({ goTo, setGameConfig }) {
       </div>
 
         <div className="setup-group">
-        <h3>🎮 Cara Main</h3>
+        <h3>🎮 How to Play</h3>
 
-        <p style={{ margin: 0 }}>👋 Arahkan tangan ke kotak</p>
-        <p style={{ margin: 0 }}>☝️ Angkat telunjuk untuk memilih</p>
-        <p style={{ margin: 0 }}>⏳ Tahan 1 detik (3-2-1)</p>
+        <p style={{ margin: 0 }}>👋 Point your hand to the box</p>
+        <p style={{ margin: 0 }}>☝️ Raise your index finger to select</p>
+        <p style={{ margin: 0 }}>⏳ Hold 1 second to select the box (3-2-1)</p>
         </div>
 
       {/* START */}
       <button className="start-btn" onClick={handleStart}>
-        Mulai Game 🚀
+        Start Game 🚀
       </button>
     </div>
   );

@@ -56,7 +56,7 @@ export default function WelcomeScreen({ goTo, setUser }) {
       {/* INPUT */}
       <input
         type="text"
-        placeholder="Masukkan nama..."
+        placeholder="Enter name..."
         value={name}
         onChange={(e) => setName(e.target.value)}
         style={{
@@ -72,22 +72,22 @@ export default function WelcomeScreen({ goTo, setUser }) {
       {/* STATISTIK */}
       {userData && (
         <div className="setup-group">
-          <h3>Statistik</h3>
+          <h3>Statistics</h3>
           <div style={{
             background: "rgba(255,255,255,0.1)",
             padding: "10px",
             borderRadius: "10px"
           }}>
-            <p>Menang: {userData.win}</p>
-            <p>Kalah: {userData.lose}</p>
-            <p>Seri: {userData.draw}</p>
+            <p>Win: {userData.win}</p>
+            <p>Lose: {userData.lose}</p>
+            <p>Draw: {userData.draw}</p>
           </div>
         </div>
       )}
 
       {/* BUTTON */}
       <button className="start-btn" onClick={handleStart}>
-        Lanjut 🚀
+        Next 🚀
       </button>
     </div>
   );

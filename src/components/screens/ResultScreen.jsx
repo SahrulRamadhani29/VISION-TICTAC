@@ -17,13 +17,13 @@ export default function ResultScreen({ goTo, result, gameConfig, user, setUser }
   // =========================
   // 🎯 CUSTOM MESSAGE
   // =========================
-  if (result === player) {
-    message = `Selamat ${name} Kamu Menang 🤩😎`;
-  } else if (result === ai) {
-    message = `Jirrrr Cupu Banget ${name} Kalah Sama AI 😹`;
-  } else {
-    message = `Tcih ${name}, Masa lawan AI Seri 😤`;
-  }
+if (result === player) {
+  message = `Not bad ${name}, you beat the AI 😏🔥`;
+} else if (result === ai) {
+  message = `Nahhh ${name}, losing to AI is crazy 💀😹`;
+} else {
+  message = `${name}... you couldn't even win? 😤`;
+}
 
   // =========================
   // 💾 UPDATE STATS + SYNC STATE (FINAL FIX)
@@ -95,7 +95,7 @@ export default function ResultScreen({ goTo, result, gameConfig, user, setUser }
           zIndex: 2,
         }}
       >
-        Kembali ke Menu
+        Back to Menu
       </button>
 
     </div>
