@@ -11,6 +11,7 @@ import useCamera from "../../hooks/useCamera";
 import useGesture from "../../hooks/useGesture";
 
 import { mapToGrid } from "../../utils/mapToGrid";
+import { minimax } from "../../utils/minimax";
 
 export default function GameScreen({ goTo, gameConfig, setResult }) {
   console.log("GAME CONFIG:", gameConfig);
@@ -64,7 +65,13 @@ export default function GameScreen({ goTo, gameConfig, setResult }) {
   // =========================
   // 🤖 AI MOVE (RANDOM)
   // =========================
-  const aiMove = () => {
+const aiMove = () => {
+  const level = gameConfig?.level;
+
+  // =========================
+  // 🤪 EASY (RANDOM)
+  // =========================
+  if (level === "easy") {
     const empty = board
       .map((v, i) => (v === null ? i : null))
       .filter((v) => v !== null);
@@ -79,7 +86,37 @@ export default function GameScreen({ goTo, gameConfig, setResult }) {
 
     setBoard(newBoard);
     setTurn("player");
-  };
+  }
+
+  // =========================
+  // 💀 HARD (MINIMAX)
+  // =========================
+  if (level === "hard") {
+    let bestScore = -Infinity;
+    let move;
+
+    for (let i = 0; i < 9; i++) {
+      if (board[i] === null) {
+        board[i] = aiSymbol;
+        let score = minimax(board, false, aiSymbol, playerSymbol);
+        board[i] = null;
+
+        if (score > bestScore) {
+          bestScore = score;
+          move = i;
+        }
+      }
+    }
+
+    if (move !== undefined) {
+      const newBoard = [...board];
+      newBoard[move] = aiSymbol;
+
+      setBoard(newBoard);
+      setTurn("player");
+    }
+  }
+};
 
   // =========================
   // 🎯 HOVER DETECTION
