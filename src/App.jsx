@@ -43,6 +43,7 @@ function App() {
           result={result}
           user={user}
           gameConfig={gameConfig}
+          setUser={setUser}
         />
       )}
     </>

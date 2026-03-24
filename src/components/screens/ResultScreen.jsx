@@ -1,13 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import useCamera from "../../hooks/useCamera";
-import { updateStats } from "../../utils/storage";
+import { updateStats, getUser } from "../../storage/userStorage";
 
-export default function ResultScreen({ goTo, result, gameConfig, user }) {
+export default function ResultScreen({ goTo, result, gameConfig, user, setUser }) {
   const videoRef = useCamera();
 
   const player = gameConfig?.playerSymbol;
   const ai = gameConfig?.aiSymbol;
   const name = user?.name || "Player";
+
+  // 🔥 GUARD BIAR GAK DOUBLE (STRICT MODE FIX)
+  const hasUpdated = useRef(false);
 
   let message = "";
 
@@ -23,14 +26,23 @@ export default function ResultScreen({ goTo, result, gameConfig, user }) {
   }
 
   // =========================
-  // 💾 UPDATE STATS
+  // 💾 UPDATE STATS + SYNC STATE (FINAL FIX)
   // =========================
   useEffect(() => {
-    if (!result) return;
+    if (!result || hasUpdated.current) return;
 
+    hasUpdated.current = true; // 🔥 cegah double increment
+
+    // 🔥 UPDATE STORAGE
     if (result === player) updateStats("win");
     else if (result === ai) updateStats("lose");
     else updateStats("draw");
+
+    // 🔥 SYNC KE STATE
+    const updatedUser = getUser();
+    if (updatedUser && setUser) {
+      setUser(updatedUser);
+    }
   }, [result]);
 
   return (
@@ -44,7 +56,7 @@ export default function ResultScreen({ goTo, result, gameConfig, user }) {
         className="camera"
       />
 
-      {/* 🔥 RESULT TEXT (ATAS TENGAH) */}
+      {/* 🔥 RESULT TEXT */}
       <div
         style={{
           position: "absolute",
@@ -55,6 +67,7 @@ export default function ResultScreen({ goTo, result, gameConfig, user }) {
           fontSize: "32px",
           fontWeight: "bold",
           zIndex: 2,
+          padding: "0 16px",
         }}
       >
         {message}

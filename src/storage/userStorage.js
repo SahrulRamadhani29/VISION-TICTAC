@@ -15,3 +15,14 @@ export function createUser(name) {
     draw: 0,
   };
 }
+
+export const updateStats = (result) => {
+  const user = getUser();
+  if (!user) return;
+
+  if (result === "win") user.win++;
+  if (result === "lose") user.lose++;
+  if (result === "draw") user.draw++;
+
+  saveUser(user);
+};
