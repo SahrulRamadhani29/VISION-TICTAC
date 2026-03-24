@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getUser, saveUser, createUser } from "../../storage/userStorage";
+import "../../styles/setup.css"; // 🔥 pakai style yang sama biar konsisten
 
 export default function WelcomeScreen({ goTo, setUser }) {
   const [name, setName] = useState("");
@@ -28,16 +29,13 @@ export default function WelcomeScreen({ goTo, setUser }) {
 
     let user;
 
-    // 🔥 JIKA SUDAH ADA USER → UPDATE NAMA (opsional fix kecil)
     if (userData) {
       user = {
         ...userData,
-        name: name, // update nama jika diubah
+        name: name,
       };
       saveUser(user);
-    } 
-    // 🔥 JIKA BELUM ADA → BUAT USER BARU
-    else {
+    } else {
       user = createUser(name);
       saveUser(user);
     }
@@ -47,31 +45,44 @@ export default function WelcomeScreen({ goTo, setUser }) {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: 80 }}>
+    <div className="setup-container">
       <h1>Welcome 👋</h1>
 
+      {/* INPUT */}
       <input
         type="text"
         placeholder="Masukkan nama..."
         value={name}
         onChange={(e) => setName(e.target.value)}
-        style={{ padding: 10, fontSize: 16 }}
+        style={{
+          padding: "12px",
+          borderRadius: "10px",
+          border: "none",
+          width: "200px",
+          textAlign: "center",
+          fontSize: "16px",
+        }}
       />
 
-      {/* 🔥 TAMPILKAN STATISTIK */}
+      {/* STATISTIK */}
       {userData && (
-        <div style={{ marginTop: 20 }}>
-          <p>Menang: {userData.win}</p>
-          <p>Kalah: {userData.lose}</p>
-          <p>Seri: {userData.draw}</p>
+        <div className="setup-group">
+          <h3>Statistik</h3>
+          <div style={{
+            background: "rgba(255,255,255,0.1)",
+            padding: "10px",
+            borderRadius: "10px"
+          }}>
+            <p>Menang: {userData.win}</p>
+            <p>Kalah: {userData.lose}</p>
+            <p>Seri: {userData.draw}</p>
+          </div>
         </div>
       )}
 
-      <button
-        onClick={handleStart}
-        style={{ marginTop: 20 }}
-      >
-        Lanjut
+      {/* BUTTON */}
+      <button className="start-btn" onClick={handleStart}>
+        Lanjut 🚀
       </button>
     </div>
   );

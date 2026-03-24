@@ -1,0 +1,50 @@
+.setup-container {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+
+  color: white;
+  text-align: center;
+}
+
+.setup-group {
+  display: flex;
+  flex-direction: column; /* 🔥 KE BAWAH */
+  gap: 10px;
+  width: 200px;
+}
+
+.setup-group h3 {
+  margin-bottom: 5px;
+}
+
+.setup-group button {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: white;
+  color: #2563eb;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.setup-group button.active {
+  background: #2563eb;
+  color: white;
+  transform: scale(1.05);
+}
+
+.start-btn {
+  margin-top: 20px;
+  padding: 14px 24px;
+  border-radius: 12px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}

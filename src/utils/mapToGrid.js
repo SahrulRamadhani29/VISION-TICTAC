@@ -1,17 +1,16 @@
 export function mapToGrid(x, y) {
-  // 🎯 AREA GRID (adjust ini penting)
-  const gridTop = 0.1;   // 10% dari atas
-  const gridBottom = 0.5; // sampai tengah layar
+  // 🔥 SESUAIKAN DENGAN UI BARU (BOARD DI ATAS)
+  const gridTop = 0.17;    // lebih turun sedikit
+  const gridBottom = 0.57; // lebih luas ke bawah
 
-  const gridLeft = 0.05;
-  const gridRight = 0.95;
+  const gridLeft = 0.1;
+  const gridRight = 0.9;
 
-  // kalau di luar area → ignore
+  // luar area
   if (x < gridLeft || x > gridRight || y < gridTop || y > gridBottom) {
     return -1;
   }
 
-  // normalisasi ke area grid
   const normalizedX = (x - gridLeft) / (gridRight - gridLeft);
   const normalizedY = (y - gridTop) / (gridBottom - gridTop);
 

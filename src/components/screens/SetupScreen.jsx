@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../../styles/setup.css";
 
 export default function SetupScreen({ goTo, setGameConfig }) {
   const [level, setLevel] = useState("easy");
@@ -16,49 +17,49 @@ export default function SetupScreen({ goTo, setGameConfig }) {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: 60 }}>
-      <h1>Setup Game ⚙️</h1>
+    <div className="setup-container">
+      <h1>Setup Game</h1>
 
       {/* LEVEL */}
-      <div style={{ marginTop: 20 }}>
-        <h3>Pilih Level</h3>
-        <button onClick={() => setLevel("easy")}>
-          EASY {level === "easy" && "✅"}
-        </button>
+      <div className="setup-group">
+        <h3>Level</h3>
+
         <button
-          onClick={() => setLevel("hard")}
-          style={{ marginLeft: 10 }}
+          className={level === "easy" ? "active" : ""}
+          onClick={() => setLevel("easy")}
         >
-          HARD {level === "hard" && "🔥"}
+          Easy
+        </button>
+
+        <button
+          className={level === "hard" ? "active" : ""}
+          onClick={() => setLevel("hard")}
+        >
+          Hard
         </button>
       </div>
 
       {/* SYMBOL */}
-      <div style={{ marginTop: 20 }}>
+      <div className="setup-group">
         <h3>Pilih Simbol</h3>
-        <button onClick={() => setSymbol("X")}>
-          X {symbol === "X" && "✅"}
-        </button>
+
         <button
-          onClick={() => setSymbol("O")}
-          style={{ marginLeft: 10 }}
+          className={symbol === "X" ? "active" : ""}
+          onClick={() => setSymbol("X")}
         >
-          O {symbol === "O" && "🔥"}
+          X
+        </button>
+
+        <button
+          className={symbol === "O" ? "active" : ""}
+          onClick={() => setSymbol("O")}
+        >
+          O
         </button>
       </div>
 
-      {/* RULES */}
-      <div style={{ marginTop: 30 }}>
-        <h3>Aturan Main</h3>
-        <p>Arahkan tangan ke kotak</p>
-        <p>Angkat telunjuk untuk memilih</p>
-      </div>
-
-      {/* START BUTTON */}
-      <button
-        onClick={handleStart}
-        style={{ marginTop: 30, padding: "10px 20px" }}
-      >
+      {/* START */}
+      <button className="start-btn" onClick={handleStart}>
         Mulai Game 🚀
       </button>
     </div>
