@@ -1,126 +1,95 @@
 import { useEffect, useState } from "react";
 
 export default function useGesture(videoRef) {
-  const [gesture, setGesture] = useState({ x: 0, y: 0, isPointing: false });
+  const [gesture, setGesture] = useState({
+    x: 0,
+    y: 0,
+    isPointing: false,
+  });
 
   useEffect(() => {
-    if (!videoRef.current) return;
+    if (!videoRef.current || !window.Hands) return;
 
-    let camera;
+    let camera = null;
+    let hands = null;
 
-    const init = async () => {
-      try {
-        const Hands = window.Hands;
-        const Camera = window.Camera;
+    hands = new window.Hands({
+      locateFile: (file) =>
+        `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`,
+    });
 
-        if (!Hands || !Camera) {
-          console.error("Waduh, MediaPipe belum ter-load dari CDN!");
-          return;
-        }
+    hands.setOptions({
+      maxNumHands: 1,
+      modelComplexity: 1,
+      minDetectionConfidence: 0.7,
+      minTrackingConfidence: 0.7,
+    });
 
-        const hands = new Hands({
-          locateFile: (file) =>
-            `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`,
+    hands.onResults((results) => {
+      if (
+        results.multiHandLandmarks &&
+        results.multiHandLandmarks.length > 0
+      ) {
+        const landmarks = results.multiHandLandmarks[0];
+
+        const indexTip = landmarks[8];
+        const indexMCP = landmarks[5]; // pangkal telunjuk
+
+        const middleTip = landmarks[12];
+        const ringTip = landmarks[16];
+        const pinkyTip = landmarks[20];
+
+        // =========================
+        // 🔥 DETEKSI POINTING (VERSI KUAT)
+        // =========================
+
+        // telunjuk harus benar-benar naik (lebih tinggi dari pangkal)
+        const indexExtended = indexTip.y < indexMCP.y - 0.06;
+
+        // jari lain harus turun (lebih bawah dari telunjuk)
+        const otherFingersDown =
+          middleTip.y > indexTip.y &&
+          ringTip.y > indexTip.y &&
+          pinkyTip.y > indexTip.y;
+
+        // jarak minimal biar gak ke-detect setengah tekuk
+        const minDistance = Math.abs(indexTip.y - indexMCP.y) > 0.1;
+
+        const isPointing =
+          indexExtended && otherFingersDown && minDistance;
+
+        // =========================
+        // 🎯 OUTPUT
+        // =========================
+        setGesture({
+          x: indexTip.x,
+          y: indexTip.y,
+          isPointing,
         });
-
-        hands.setOptions({
-          maxNumHands: 1,
-          modelComplexity: 1,
-          minDetectionConfidence: 0.7,
-          minTrackingConfidence: 0.7,
+      } else {
+        setGesture({
+          x: 0,
+          y: 0,
+          isPointing: false,
         });
-
-        hands.onResults((results) => {
-          try {
-            if (!results.multiHandLandmarks?.length) {
-              setGesture((p) => ({ ...p, isPointing: false }));
-              return;
-            }
-
-            const lm = results.multiHandLandmarks[0];
-            
-            const indexTip = lm[8]; // Ujung telunjuk
-            const indexPip = lm[6]; // Sendi telunjuk
-            const middleTip = lm[12];
-            const middlePip = lm[10];
-            const ringTip = lm[16];
-            const ringPip = lm[14];
-            const pinkyTip = lm[20];
-            const pinkyPip = lm[18];
-
-            // Logika deteksi gesture (menunjuk)
-            const isIndexUp = indexTip.y < indexPip.y;
-            const isMiddleDown = middleTip.y > middlePip.y;
-            const isRingDown = ringTip.y > ringPip.y;
-            const isPinkyDown = pinkyTip.y > pinkyPip.y;
-            const isPointing = isIndexUp && isMiddleDown && isRingDown && isPinkyDown;
-
-            // 🔥 RUMUS KALIBRASI PRESISI TINGKAT DEWA 🔥
-            // Menghitung offset karena video kena efek object-fit: cover
-            const video = videoRef.current;
-            const vw = video.videoWidth;
-            const vh = video.videoHeight;
-            const sw = window.innerWidth;
-            const sh = window.innerHeight;
-
-            let renderW = sw;
-            let renderH = sh;
-            let offsetX = 0;
-            let offsetY = 0;
-
-            if (vw && vh) {
-              const videoRatio = vw / vh;
-              const screenRatio = sw / sh;
-
-              if (screenRatio > videoRatio) {
-                // Layar lebih lebar dari video (Landscape)
-                renderW = sw;
-                renderH = sw / videoRatio;
-                offsetY = (sh - renderH) / 2;
-              } else {
-                // Layar lebih panjang dari video (Portrait/Mobile)
-                renderW = sh * videoRatio;
-                renderH = sh;
-                offsetX = (sw - renderW) / 2;
-              }
-            }
-
-            // Hitung koordinat final yang udah dikalibrasi!
-            const exactX = offsetX + ((1 - indexTip.x) * renderW);
-            const exactY = offsetY + (indexTip.y * renderH);
-
-            setGesture({
-              x: exactX,
-              y: exactY,
-              isPointing,
-            });
-          } catch (e) {
-            console.error("gesture error", e);
-          }
-        });
-
-        camera = new Camera(videoRef.current, {
-          onFrame: async () => {
-            try {
-              await hands.send({ image: videoRef.current });
-            } catch (e) {
-              console.error("frame error", e);
-            }
-          },
-        });
-
-        camera.start();
-      } catch (err) {
-        console.error("MediaPipe error:", err);
       }
-    };
+    });
 
-    init();
+    camera = new window.Camera(videoRef.current, {
+      onFrame: async () => {
+        await hands.send({ image: videoRef.current });
+      },
+      width: 640,
+      height: 480,
+    });
+
+    camera.start();
 
     return () => {
       if (camera) camera.stop();
+      if (hands) hands.close();
     };
-  }, [videoRef]); 
+  }, [videoRef]);
 
   return gesture;
 }

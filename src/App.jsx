@@ -1,56 +1,50 @@
 import { useState } from "react";
 
-import Welcome from "./components/Welcome";
-import Setup from "./components/Setup";
-import Game from "./components/Game";
-import Result from "./components/Result";
-
-import { setGameConfig } from "./store/gameStore";
+import WelcomeScreen from "./components/screens/WelcomeScreen";
+import SetupScreen from "./components/screens/SetupScreen";
+import GameScreen from "./components/screens/GameScreen";
+import ResultScreen from "./components/screens/ResultScreen";
 
 function App() {
-  const [page, setPage] = useState("welcome");
+  const [screen, setScreen] = useState("welcome");
+
+  // nanti kita isi data global di sini
+  const [user, setUser] = useState(null);
+  const [gameConfig, setGameConfig] = useState(null);
   const [result, setResult] = useState(null);
 
-  // 🔹 START GAME (dari Setup)
-  const handleStartGame = (config) => {
-    setGameConfig(config);
-    setResult(null);
-    setPage("game");
-  };
-
-  // 🔹 GAME SELESAI
-  const handleGameEnd = (res) => {
-    setResult(res);
-    setPage("result");
-  };
-
-  // 🔹 KEMBALI KE MENU
-  const handleBackToMenu = () => {
-    setResult(null);
-    setPage("welcome");
+  // NAVIGATION FUNCTION
+  const goTo = (nextScreen) => {
+    setScreen(nextScreen);
   };
 
   return (
-    <div>
-      {page === "welcome" && (
-        <Welcome goToSetup={() => setPage("setup")} />
+    <>
+      {screen === "welcome" && (
+        <WelcomeScreen goTo={goTo} setUser={setUser} />
       )}
 
-      {page === "setup" && (
-        <Setup goToGame={handleStartGame} />
+      {screen === "setup" && (
+        <SetupScreen goTo={goTo} setGameConfig={setGameConfig} />
       )}
 
-      {page === "game" && (
-        <Game goToResult={handleGameEnd} />
-      )}
-
-      {page === "result" && (
-        <Result
-          result={result}
-          goToMenu={handleBackToMenu}
+      {screen === "game" && (
+        <GameScreen
+          goTo={goTo}
+          user={user}
+          gameConfig={gameConfig}
+          setResult={setResult}
         />
       )}
-    </div>
+
+      {screen === "result" && (
+        <ResultScreen
+          goTo={goTo}
+          result={result}
+          user={user}
+        />
+      )}
+    </>
   );
 }
 

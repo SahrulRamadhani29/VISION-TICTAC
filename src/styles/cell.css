@@ -1,0 +1,19 @@
+.cell {
+  width: 100px;
+  height: 100px;
+
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid white;
+
+  color: white;
+  font-size: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell.hover {
+  background: rgba(0, 255, 150, 0.7);
+  color: black;
+}

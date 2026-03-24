@@ -1,103 +1,32 @@
-/* =========================================
-   GAME SCREEN LAYOUT
-   ========================================= */
+.status {
+  margin-top: 20px;
+  font-size: 18px;
+}
 
-.game-screen-container {
-  position: relative; /* Wajib relative untuk anak-anaknya */
+.game-container {
+  position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: transparent; /* Pastikan bening */
   overflow: hidden;
 }
 
-/* 1. Video Kamera (Paling Belakang) */
-.camera-video-feed {
+/* 🎥 CAMERA FULL */
+.camera {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  transform: scaleX(-1);
+}
+
+
+.canvas-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Fullscreen tanpa distorsi */
-  transform: scaleX(-1); /* Mirror feed */
-  z-index: 1; /* Lapisan dasar */
-}
-
-/* 2. UI Overlay (Tengah) */
-.game-ui-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* Susun dari atas */
-  padding-top: 40px; /* Jarak judul dari atas layar */
-  background-color: transparent; /* Jangan kasih warna BG di sini! */
-  z-index: 5; /* Di atas kamera, di bawah pointer */
-  pointer-events: none; /* UI dasar gak ngeblok klik, kecuali anaknya */
-}
-
-/* Agar elemen di dalam overlay bisa diklik */
-.game-title, .game-info, .tic-tac-toe-board {
-  pointer-events: auto;
-}
-
-.game-title {
-  color: white; /* Putih agar kontras dengan kamera */
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Shadow agar kebaca */
-  margin-bottom: 5px;
-}
-
-.game-info {
-  color: white;
-  margin-bottom: 20px;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-}
-
-/* Papan Game */
-.tic-tac-toe-board {
-  display: grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 100px);
-  gap: 10px;
-  background-color: rgba(255, 255, 255, 0.1); /* Sedikit transparan biar keren */
-  padding: 10px;
-  border-radius: 10px;
-  backdrop-filter: blur(5px); /* Efek kaca di area grid */
-}
-
-/* Sel Game */
-.game-cell {
-  background-color: rgba(255, 255, 255, 0.8); /* Sel putih tapi tembus pandang */
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 60px;
-  font-weight: bold;
-  color: #333;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.game-cell:hover {
-  background-color: rgba(255, 255, 255, 1);
-}
-
-/* 3. Pointer Jari (Paling Depan) */
-.gesture-pointer-finger {
-  position: fixed; /* Wajib fixed mengikuti layar */
-  width: 25px;
-  height: 25px;
-  background-color: #00ff00; /* Hijau menyala */
-  border: 3px solid white; /* Border putih agar makin jelas */
-  border-radius: 50%;
-  pointer-events: none; /* Jangan biarkan pointer ngeblok klik */
-  box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; /* Efek Glow */
-  transform: translate(-50%, -50%); /* Sentrerkan di koordinat XY */
-  z-index: 999; /* Lapisan tertinggi, harus di depan grid */
-  /* Transisi halus mengikuti gerakan jari */
-  transition: left 0.05s linear, top 0.05s linear; 
+  z-index: 2;
+  pointer-events: none;
 }

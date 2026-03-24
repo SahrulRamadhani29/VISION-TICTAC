@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef, useEffect } from "react";
 
 export default function useCamera() {
   const videoRef = useRef(null);
@@ -8,26 +8,15 @@ export default function useCamera() {
 
     const startCamera = async () => {
       try {
-        // 🔥 CHECK SUPPORT
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-          console.error("Camera not supported");
-          alert("Browser tidak mendukung kamera");
-          return;
-        }
-
         stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: "user",
-          },
-          audio: false,
+          video: true,
         });
 
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
-      } catch (err) {
-        console.error("Camera error:", err);
-        alert("Tidak bisa mengakses kamera");
+      } catch (error) {
+        console.error("Camera error:", error);
       }
     };
 

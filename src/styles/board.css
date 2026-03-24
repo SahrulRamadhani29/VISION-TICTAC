@@ -1,0 +1,12 @@
+.board {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  gap: 10px;
+
+  z-index: 2;
+}
