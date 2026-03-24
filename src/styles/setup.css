@@ -1,13 +1,19 @@
 .setup-container {
-  height: 100dvh;
+  min-height: 100dvh;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 25px;
 
+  justify-content: flex-start; /* 🔥 JANGAN CENTER */
+
+  padding-top: calc(env(safe-area-inset-top) + 60px);
+  padding-bottom: 40px;
+
+  gap: 25px;
   text-align: center;
-  color: var(--text);
+
+  overflow-y: auto;
 }
 
 /* GROUP */
