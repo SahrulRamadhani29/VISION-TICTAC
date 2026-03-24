@@ -46,7 +46,12 @@ export default function WelcomeScreen({ goTo, setUser }) {
 
   return (
     <div className="setup-container">
-      <h1>Welcome 👋</h1>
+    <h1>
+    Vision-Tictac <br />
+    <span style={{ fontSize: "20px", fontWeight: "400" }}>
+        By Ramaaa Uye
+    </span>
+    </h1>   
 
       {/* INPUT */}
       <input

@@ -1,23 +1,32 @@
 .cell {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
 
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid white;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1.5px solid var(--primary-soft);
 
-  color: white;
-  font-size: 40px;
+  color: var(--text);
+  font-size: 36px;
+  font-weight: bold;
 
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
 
-  border-radius: 12px;
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+
   transition: all 0.2s ease;
 }
 
+/* 🔥 HOVER */
 .cell.hover {
-  background: #2563eb;
+  background: var(--primary-soft);
   transform: scale(1.05);
+}
+
+/* 🔥 COUNTDOWN TEXT */
+.cell div {
+  color: var(--primary);
 }

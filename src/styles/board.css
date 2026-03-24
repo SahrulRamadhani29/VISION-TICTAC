@@ -1,12 +1,12 @@
 .board {
   position: absolute;
-  top: 15%;
+  top: 18%;
   left: 50%;
   transform: translateX(-50%);
 
   display: grid;
   grid-template-columns: repeat(3, 90px);
-  gap: 12px;
+  gap: 14px;
 
-  z-index: 2;
+  z-index: 3;
 }

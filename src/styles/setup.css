@@ -6,45 +6,68 @@
   justify-content: center;
   gap: 25px;
 
-  color: white;
   text-align: center;
+  color: var(--text);
 }
 
+/* GROUP */
 .setup-group {
   display: flex;
-  flex-direction: column; /* 🔥 KE BAWAH */
+  flex-direction: column;
   gap: 10px;
-  width: 200px;
+  width: 220px;
 }
 
+/* TITLE */
 .setup-group h3 {
   margin-bottom: 5px;
 }
 
+/* BUTTON */
 .setup-group button {
   padding: 12px;
   border-radius: 10px;
-  border: none;
+  border: 1px solid var(--primary-soft);
+
   background: white;
-  color: #2563eb;
-  font-weight: bold;
+  color: var(--text);
+
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
+/* ACTIVE */
 .setup-group button.active {
-  background: #2563eb;
+  background: var(--primary);
   color: white;
   transform: scale(1.05);
 }
 
+/* START BUTTON */
 .start-btn {
   margin-top: 20px;
   padding: 14px 24px;
+
   border-radius: 12px;
   border: none;
-  background: #2563eb;
+
+  background: var(--primary);
   color: white;
+
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.start-btn:hover {
+  opacity: 0.9;
+}
+
+.setup-group {
+  background: rgba(255,255,255,0.6);
+  padding: 12px;
+  border-radius: 12px;
 }

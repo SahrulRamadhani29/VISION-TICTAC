@@ -56,20 +56,29 @@ export default function ResultScreen({ goTo, result, gameConfig, user, setUser }
         className="camera"
       />
 
-      {/* 🔥 RESULT TEXT */}
-      <div
+            {/* 🔥 RESULT TEXT */}
+        <div
         style={{
-          position: "absolute",
-          top: 40,
-          width: "100%",
-          textAlign: "center",
-          color: "white",
-          fontSize: "32px",
-          fontWeight: "bold",
-          zIndex: 2,
-          padding: "0 16px",
+            position: "absolute",
+            top: 40,
+            left: "50%",
+            transform: "translateX(-50%)",
+
+            background: "rgba(0,0,0,0.2)", // 🔥 20% hitam
+            backdropFilter: "blur(6px)",   // 🔥 glass effect
+
+            padding: "10px 16px",
+            borderRadius: "12px",
+
+            color: "white",
+            fontSize: "20px", // 🔥 LEBIH KECIL
+            fontWeight: "600",
+
+            zIndex: 3,
+            maxWidth: "90%",
+            textAlign: "center",
         }}
-      >
+        >
         {message}
       </div>
 

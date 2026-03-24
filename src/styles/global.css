@@ -1,7 +1,17 @@
+:root {
+  --primary: #60a5fa;        /* biru langit */
+  --primary-soft: #dbeafe;   /* biru sangat lembut */
+  --text: #1e293b;
+  --white: #dbabab;
+}
+
 html, body, #root {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden; /* 🔥 hilangkan scroll */
-  background: linear-gradient(#1e3a8a, #2563eb);
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  background: #b0c2e6; /* 🔥 putih lembut */
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }

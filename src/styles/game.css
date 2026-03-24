@@ -1,10 +1,5 @@
-.status {
-  margin-top: 20px;
-  font-size: 18px;
-}
-
 .game-container {
-  position: fixed; /* 🔥 PENTING */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
@@ -12,7 +7,7 @@
   overflow: hidden;
 }
 
-/* 🎥 CAMERA FULL */
+/* 🎥 CAMERA */
 .camera {
   position: absolute;
   width: 100%;
@@ -22,7 +17,7 @@
   transform: scaleX(-1);
 }
 
-
+/* 🎯 CANVAS */
 .canvas-overlay {
   position: absolute;
   top: 0;

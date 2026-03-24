@@ -58,6 +58,14 @@ export default function SetupScreen({ goTo, setGameConfig }) {
         </button>
       </div>
 
+        <div className="setup-group">
+        <h3>🎮 Cara Main</h3>
+
+        <p style={{ margin: 0 }}>👋 Arahkan tangan ke kotak</p>
+        <p style={{ margin: 0 }}>☝️ Angkat telunjuk untuk memilih</p>
+        <p style={{ margin: 0 }}>⏳ Tahan 1 detik (3-2-1)</p>
+        </div>
+
       {/* START */}
       <button className="start-btn" onClick={handleStart}>
         Mulai Game 🚀
