@@ -136,13 +136,18 @@ const aiMove = () => {
   // 🔥 HOLD DETECTION (FIX TOTAL)
   // =========================
   useEffect(() => {
-    if (!gesture.isPointing || hoverIndex === -1 || turn !== "player") {
-      setHoldIndex(-1);
-      setHoldTime(0);
-      setCountdown(null);
-      setHoldStart(null);
-      return;
-    }
+  if (
+    !gesture.isPointing ||
+    hoverIndex === -1 ||
+    turn !== "player" ||
+    board[hoverIndex] !== null // 🔥 TAMBAHAN INI
+  ) {
+    setHoldIndex(-1);
+    setHoldTime(0);
+    setCountdown(null);
+    setHoldStart(null);
+    return;
+  }
 
     if (holdIndex !== hoverIndex) {
       setHoldIndex(hoverIndex);

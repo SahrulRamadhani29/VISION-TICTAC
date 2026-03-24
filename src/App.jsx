@@ -42,6 +42,7 @@ function App() {
           goTo={goTo}
           result={result}
           user={user}
+          gameConfig={gameConfig}
         />
       )}
     </>
