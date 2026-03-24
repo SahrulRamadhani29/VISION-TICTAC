@@ -3,8 +3,8 @@ export function mapToGrid(x, y) {
   const gridTop = 0.1;   // 10% dari atas
   const gridBottom = 0.5; // sampai tengah layar
 
-  const gridLeft = 0.2;
-  const gridRight = 0.8;
+  const gridLeft = 0.05;
+  const gridRight = 0.95;
 
   // kalau di luar area → ignore
   if (x < gridLeft || x > gridRight || y < gridTop || y > gridBottom) {

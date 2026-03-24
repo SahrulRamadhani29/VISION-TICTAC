@@ -39,11 +39,12 @@ export default function GameScreen({ goTo, gameConfig, setResult }) {
   const canvasRef = useRef(null);
 
   // =========================
-  // 🔥 HOLD SYSTEM (BARU)
+  // 🔥 HOLD SYSTEM (FIXED)
   // =========================
   const [holdIndex, setHoldIndex] = useState(-1);
   const [holdTime, setHoldTime] = useState(0);
   const [countdown, setCountdown] = useState(null);
+  const [holdStart, setHoldStart] = useState(null); // 🔥 BARU
 
   // =========================
   // 🎯 PLAYER MOVE (CLICK)
@@ -95,28 +96,28 @@ export default function GameScreen({ goTo, gameConfig, setResult }) {
   }, [gesture]);
 
   // =========================
-  // 🔥 HOLD DETECTION (INTI)
+  // 🔥 HOLD DETECTION (FIX TOTAL)
   // =========================
   useEffect(() => {
     if (!gesture.isPointing || hoverIndex === -1 || turn !== "player") {
       setHoldIndex(-1);
       setHoldTime(0);
       setCountdown(null);
+      setHoldStart(null);
       return;
     }
 
     if (holdIndex !== hoverIndex) {
       setHoldIndex(hoverIndex);
-      setHoldTime(0);
+      setHoldStart(Date.now());
       return;
     }
 
-    const interval = setInterval(() => {
-      setHoldTime((prev) => prev + 100);
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, [gesture, hoverIndex]);
+    if (holdStart) {
+      const elapsed = Date.now() - holdStart;
+      setHoldTime(elapsed);
+    }
+  }, [gesture, hoverIndex, holdIndex, turn, holdStart]);
 
   // =========================
   // 🔥 COUNTDOWN + EXECUTE
@@ -128,6 +129,7 @@ export default function GameScreen({ goTo, gameConfig, setResult }) {
       setHoldIndex(-1);
       setHoldTime(0);
       setCountdown(null);
+      setHoldStart(null);
       return;
     }
 
@@ -135,7 +137,7 @@ export default function GameScreen({ goTo, gameConfig, setResult }) {
       const sec = Math.ceil((1000 - holdTime) / 333);
       setCountdown(sec);
     }
-  }, [holdTime]);
+  }, [holdTime, holdIndex]);
 
   // =========================
   // 🔴 DRAW POINT
@@ -215,27 +217,14 @@ export default function GameScreen({ goTo, gameConfig, setResult }) {
         className="canvas-overlay"
       />
 
-      {/* 🔥 COUNTDOWN UI */}
-      {countdown && (
-        <h1 style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          color: "white",
-          fontSize: "80px",
-          zIndex: 5
-        }}>
-          {countdown}
-        </h1>
-      )}
 
-      <h1>GAME PLAY 🎮</h1>
 
       <Board
-        board={board}
-        onClick={handleCellClick}
-        hoverIndex={hoverIndex}
+      board={board}
+      onClick={handleCellClick}
+      hoverIndex={hoverIndex}
+      holdIndex={holdIndex}      // 🔥 BARU
+      countdown={countdown}      // 🔥 BARU
       />
 
       <div className="status">

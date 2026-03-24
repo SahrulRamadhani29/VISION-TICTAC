@@ -1,7 +1,7 @@
 import Cell from "./Cell";
 import "../styles/board.css";
 
-export default function Board({ board, onClick, hoverIndex }) {
+export default function Board({ board, onClick, hoverIndex, holdIndex, countdown }) {
   return (
     <div className="board">
       {board.map((cell, index) => (
@@ -10,6 +10,8 @@ export default function Board({ board, onClick, hoverIndex }) {
           value={cell}
           onClick={() => onClick(index)}
           isHover={hoverIndex === index}
+          isHolding={holdIndex === index}   // 🔥 BARU
+          countdown={countdown}             // 🔥 BARU
         />
       ))}
     </div>
